@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -267,10 +266,6 @@
     </div>
 
     <script>
-        // =====================================================================
-        // 📝 SITE CONFIGURATION 📝
-        // Edit your website text here. This section updates the Hero, About, and Contact areas.
-        // =====================================================================
         const SITE_CONFIG = {
             hero: {
                 subtitle: "Landscapes in Light",
@@ -289,254 +284,157 @@
             }
         };
 
-        // =====================================================================
-        // 🎨 ARTWORK DATA SECTION 🎨
-        // Add your paintings to this list. 
-        // IMPORTANT: Change the imagePath to point to the actual files in your 'images' folder.
-        // Example: imagePath: "images/painting-01.jpg"
-        // =====================================================================
         const ARTWORK_PORTFOLIO = [
-            {
-                imagePath: "images/Lion.jpeg",
-                title: "Lion",
-                year: "2024",
-                medium: "Oil on Canvas",
-                dimensions: "Unknown",
-                description: "A majestic portrait captured in impressionist strokes."
-            },
-            {
-                imagePath: "images/churches.jpeg",
-                title: "Churches",
-                year: "2024",
-                medium: "Oil on Canvas",
-                dimensions: "Unknown",
-                description: "Architectural study of local churches in the morning light."
-            },
-            {
-                imagePath: "images/cliff.jpeg",
-                title: "Cliff",
-                year: "2024",
-                medium: "Oil on Canvas",
-                dimensions: "Unknown",
-                description: "Rugged cliffs against a vast sky."
-            },
-            {
-                imagePath: "images/cliify.jpeg",
-                title: "Cliffside",
-                year: "2024",
-                medium: "Oil on Canvas",
-                dimensions: "Unknown",
-                description: "A study of light hitting a rocky cliff face."
-            },
-            {
-                imagePath: "images/farm.jpeg",
-                title: "Farm",
-                year: "2024",
-                medium: "Oil on Canvas",
-                dimensions: "Unknown",
-                description: "A serene countryside farm setting."
-            },
-            {
-                imagePath: "images/lavendar.jpeg",
-                title: "Lavender",
-                year: "2024",
-                medium: "Oil on Canvas",
-                dimensions: "Unknown",
-                description: "Fields of blooming lavender in the summer sun."
-            },
-            {
-                imagePath: "images/meadows.jpeg",
-                title: "Meadows",
-                year: "2024",
-                medium: "Oil on Canvas",
-                dimensions: "Unknown",
-                description: "Open meadows showing the interplay of wind and tall grass."
-            },
-            {
-                imagePath: "images/pastel.jpeg",
-                title: "Pastel",
-                year: "2024",
-                medium: "Oil on Canvas",
-                dimensions: "Unknown",
-                description: "A soft, pastel-toned impressionist landscape."
-            },
-            {
-                imagePath: "images/pond.jpeg",
-                title: "Pond",
-                year: "2024",
-                medium: "Oil on Canvas",
-                dimensions: "Unknown",
-                description: "Reflections on a quiet, slow-moving pond."
-            },
-            {
-                imagePath: "images/sunset.jpeg",
-                title: "Sunset",
-                year: "2024",
-                medium: "Oil on Canvas",
-                dimensions: "Unknown",
-                description: "The fleeting transition of day into night."
-            },
-            {
-                imagePath: "images/waterfall-2.jpeg",
-                title: "Waterfall II",
-                year: "2024",
-                medium: "Oil on Canvas",
-                dimensions: "Unknown",
-                description: "A dynamic depiction of cascading water."
-            },
-            {
-                imagePath: "images/waterfall.jpeg",
-                title: "Waterfall",
-                year: "2024",
-                medium: "Oil on Canvas",
-                dimensions: "Unknown",
-                description: "The raw power of a hidden woodland waterfall."
-            }
+            { imagePath: "images/Lion.jpeg", title: "Lion", year: "2024", medium: "Oil on Canvas", dimensions: "Unknown", description: "A majestic portrait captured in impressionist strokes." },
+            { imagePath: "images/churches.jpeg", title: "Churches", year: "2024", medium: "Oil on Canvas", dimensions: "Unknown", description: "Architectural study of local churches in the morning light." },
+            { imagePath: "images/cliff.jpeg", title: "Cliff", year: "2024", medium: "Oil on Canvas", dimensions: "Unknown", description: "Rugged cliffs against a vast sky." },
+            { imagePath: "images/cliify.jpeg", title: "Cliffside", year: "2024", medium: "Oil on Canvas", dimensions: "Unknown", description: "A study of light hitting a rocky cliff face." },
+            { imagePath: "images/farm.jpeg", title: "Farm", year: "2024", medium: "Oil on Canvas", dimensions: "Unknown", description: "A serene countryside farm setting." },
+            { imagePath: "images/lavendar.jpeg", title: "Lavender", year: "2024", medium: "Oil on Canvas", dimensions: "Unknown", description: "Fields of blooming lavender in the summer sun." },
+            { imagePath: "images/meadows.jpeg", title: "Meadows", year: "2024", medium: "Oil on Canvas", dimensions: "Unknown", description: "Open meadows showing the interplay of wind and tall grass." },
+            { imagePath: "images/pastel.jpeg", title: "Pastel", year: "2024", medium: "Oil on Canvas", dimensions: "Unknown", description: "A soft, pastel-toned impressionist landscape." },
+            { imagePath: "images/pond.jpeg", title: "Pond", year: "2024", medium: "Oil on Canvas", dimensions: "Unknown", description: "Reflections on a quiet, slow-moving pond." },
+            { imagePath: "images/sunset.jpeg", title: "Sunset", year: "2024", medium: "Oil on Canvas", dimensions: "Unknown", description: "The fleeting transition of day into night." },
+            { imagePath: "images/waterfall-2.jpeg", title: "Waterfall II", year: "2024", medium: "Oil on Canvas", dimensions: "Unknown", description: "A dynamic depiction of cascading water." },
+            { imagePath: "images/waterfall.jpeg", title: "Waterfall", year: "2024", medium: "Oil on Canvas", dimensions: "Unknown", description: "The raw power of a hidden woodland waterfall." }
         ];
-        
-        // --- Core Rendering Function ---
-        function renderContent() {
-            // Render Hero Section
-            document.getElementById('hero-subtitle').textContent = SITE_CONFIG.hero.subtitle;
-            document.getElementById('hero-title').innerHTML = SITE_CONFIG.hero.title;
-            document.getElementById('hero-desc').textContent = SITE_CONFIG.hero.desc;
 
-            // Render About Section
-            const aboutContainer = document.getElementById('about-container');
-            let aboutHtml = `<h2 class="text-4xl mb-8 italic">${SITE_CONFIG.about.title}</h2>
-                             <div class="brush-stroke-divider"></div>
-                             <div class="prose prose-lg mx-auto text-center font-light leading-relaxed space-y-6 mt-12 text-gray-700">`;
-            
-            const paras = SITE_CONFIG.about.paragraphs.split('\n');
-            paras.forEach(p => {
-                if (p.trim()) aboutHtml += `<p>${p}</p>`;
-            });
-            if (SITE_CONFIG.about.quote) {
-                aboutHtml += `<p class="serif-text text-2xl italic mt-12 text-[#8ba88e]">${SITE_CONFIG.about.quote}</p>`;
-            }
-            aboutHtml += `</div>`;
-            aboutContainer.innerHTML = aboutHtml;
-
-            // Render Contact Section
-            document.getElementById('contact-title').textContent = SITE_CONFIG.contact.title;
-            document.getElementById('contact-desc').textContent = SITE_CONFIG.contact.desc;
-            const emailEl = document.getElementById('contact-email');
-            emailEl.textContent = SITE_CONFIG.contact.email;
-            emailEl.href = `mailto:${SITE_CONFIG.contact.email}`;
-
-            // Render Gallery Section
-            const galleryGrid = document.getElementById('gallery-grid');
-            let galleryHtml = '';
-            
-            if (ARTWORK_PORTFOLIO.length === 0) {
-                galleryHtml = `<div class="col-span-full text-center py-20 text-gray-400 italic text-lg">The gallery is currently empty. Please add artwork data to the code.</div>`;
-            } else {
-                ARTWORK_PORTFOLIO.forEach((item, index) => {
-                    // Pass the index to the openModal function to retrieve full details later
-                    galleryHtml += `
-                    <div class="gallery-image-container fade-in-section break-inside-avoid relative group">
-                        <img src="${item.imagePath}" alt="${item.title}" loading="lazy" class="cursor-pointer w-full" onclick="openModal(${index})">
-                        <div class="image-overlay pointer-events-none">
-                            <h3 class="text-xl mb-1 italic">${item.title}</h3>
-                            <p class="text-xs uppercase tracking-widest text-gray-500">${item.medium}, ${item.year}</p>
-                        </div>
-                    </div>`;
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Setup Intersection Observer for scroll animations
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        obs.unobserve(entry.target); // Stop observing once visible for better performance
+                    }
                 });
-            }
-            galleryGrid.innerHTML = galleryHtml;
-            
-            // Re-trigger intersection observer for newly added gallery items
-            setTimeout(() => {
-                document.querySelectorAll('.fade-in-section:not(.is-visible)').forEach((section) => {
+            }, observerOptions);
+
+            // Fallback to immediately show elements if Observer isn't supported on old browsers
+            const handleFallbacks = () => {
+                if (!('IntersectionObserver' in window)) {
+                    document.querySelectorAll('.fade-in-section').forEach(el => el.classList.add('is-visible'));
+                }
+            };
+
+            // 2. Core Rendering Function
+            function renderContent() {
+                // Render Hero Section
+                document.getElementById('hero-subtitle').textContent = SITE_CONFIG.hero.subtitle;
+                document.getElementById('hero-title').innerHTML = SITE_CONFIG.hero.title;
+                document.getElementById('hero-desc').textContent = SITE_CONFIG.hero.desc;
+
+                // Render About Section
+                const aboutContainer = document.getElementById('about-container');
+                let aboutHtml = `<h2 class="text-4xl mb-8 italic">${SITE_CONFIG.about.title}</h2>
+                                 <div class="brush-stroke-divider"></div>
+                                 <div class="prose prose-lg mx-auto text-center font-light leading-relaxed space-y-6 mt-12 text-gray-700">`;
+                
+                SITE_CONFIG.about.paragraphs.split('\n').forEach(p => {
+                    if (p.trim()) aboutHtml += `<p>${p}</p>`;
+                });
+                if (SITE_CONFIG.about.quote) {
+                    aboutHtml += `<p class="serif-text text-2xl italic mt-12 text-[#8ba88e]">${SITE_CONFIG.about.quote}</p>`;
+                }
+                aboutHtml += `</div>`;
+                aboutContainer.innerHTML = aboutHtml;
+
+                // Render Contact Section
+                document.getElementById('contact-title').textContent = SITE_CONFIG.contact.title;
+                document.getElementById('contact-desc').textContent = SITE_CONFIG.contact.desc;
+                const emailEl = document.getElementById('contact-email');
+                emailEl.textContent = SITE_CONFIG.contact.email;
+                emailEl.href = `mailto:${SITE_CONFIG.contact.email}`;
+
+                // Render Gallery Section
+                const galleryGrid = document.getElementById('gallery-grid');
+                let galleryHtml = '';
+                
+                if (ARTWORK_PORTFOLIO.length === 0) {
+                    galleryHtml = `<div class="col-span-full text-center py-20 text-gray-400 italic text-lg">The gallery is currently empty. Please add artwork data to the code.</div>`;
+                } else {
+                    ARTWORK_PORTFOLIO.forEach((item, index) => {
+                        galleryHtml += `
+                        <div class="gallery-image-container fade-in-section break-inside-avoid relative group">
+                            <img src="${item.imagePath}" alt="${item.title}" loading="lazy" class="cursor-pointer w-full" onclick="openModal(${index})">
+                            <div class="image-overlay pointer-events-none">
+                                <h3 class="text-xl mb-1 italic">${item.title}</h3>
+                                <p class="text-xs uppercase tracking-widest text-gray-500">${item.medium}, ${item.year}</p>
+                            </div>
+                        </div>`;
+                    });
+                }
+                galleryGrid.innerHTML = galleryHtml;
+                
+                // 3. Attach observers immediately after DOM insertion
+                document.querySelectorAll('.fade-in-section').forEach((section) => {
                     observer.observe(section);
                 });
-            }, 100);
-        }
-
-        // Initialize content immediately
-        renderContent();
-
-        // Set current year in footer
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        // Navbar scroll effect (shrinks and blurs background on scroll)
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('bg-[#fcfbf9]/90', 'backdrop-blur-md', 'shadow-sm');
-                navbar.classList.remove('py-4');
-                navbar.classList.add('py-2');
-            } else {
-                navbar.classList.remove('bg-[#fcfbf9]/90', 'backdrop-blur-md', 'shadow-sm');
-                navbar.classList.remove('py-2');
-                navbar.classList.add('py-4');
+                handleFallbacks();
             }
-        });
 
-        // Intersection Observer for elegant fade-in animations on scroll
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15
-        };
+            // Execute render
+            renderContent();
 
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
+            // Set current year
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            // Navbar scroll effect
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('bg-[#fcfbf9]/90', 'backdrop-blur-md', 'shadow-sm');
+                    navbar.classList.remove('py-4');
+                    navbar.classList.add('py-2');
+                } else {
+                    navbar.classList.remove('bg-[#fcfbf9]/90', 'backdrop-blur-md', 'shadow-sm');
+                    navbar.classList.remove('py-2');
+                    navbar.classList.add('py-4');
                 }
             });
-        }, observerOptions);
 
-        // Select and observe all elements with the fade-in class initially
-        document.querySelectorAll('.fade-in-section').forEach((section) => {
-            observer.observe(section);
-        });
+            // Modal Logic (Attached to window so HTML onclick can access it)
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalSpecs = document.getElementById('modalSpecs');
+            const modalDesc = document.getElementById('modalDesc');
 
-        // --- Detailed Image Modal Logic ---
-        const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImg');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalSpecs = document.getElementById('modalSpecs');
-        const modalDesc = document.getElementById('modalDesc');
+            window.openModal = function(artworkIndex) {
+                const artwork = ARTWORK_PORTFOLIO[artworkIndex];
+                modalImg.src = artwork.imagePath;
+                modalTitle.textContent = artwork.title;
+                modalSpecs.textContent = `${artwork.medium} | ${artwork.dimensions} | ${artwork.year}`;
+                modalDesc.textContent = artwork.description;
+                
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            };
 
-        function openModal(artworkIndex) {
-            const artwork = ARTWORK_PORTFOLIO[artworkIndex];
-            
-            // Populate Modal Data
-            modalImg.src = artwork.imagePath;
-            modalTitle.textContent = artwork.title;
-            modalSpecs.textContent = `${artwork.medium} | ${artwork.dimensions} | ${artwork.year}`;
-            modalDesc.textContent = artwork.description;
-            
-            // Show Modal
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        }
+            window.closeModal = function() {
+                modal.classList.remove('active');
+                document.body.style.overflow = ''; 
+                
+                setTimeout(() => { 
+                    modalImg.src = ''; 
+                    modalTitle.textContent = '';
+                    modalSpecs.textContent = '';
+                    modalDesc.textContent = '';
+                }, 300);
+            };
 
-        function closeModal() {
-            modal.classList.remove('active');
-            document.body.style.overflow = ''; // Restore background scrolling
-            
-            // Clear contents after transition finishes
-            setTimeout(() => { 
-                modalImg.src = ''; 
-                modalTitle.textContent = '';
-                modalSpecs.textContent = '';
-                modalDesc.textContent = '';
-            }, 300);
-        }
+            // Close modal on background click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) window.closeModal();
+            });
 
-        // Close modal when clicking the blurred background area
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
-
-        // Close modal when pressing the Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
-                closeModal();
-            }
+            // Close modal on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    window.closeModal();
+                }
+            });
         });
     </script>
 </body>
