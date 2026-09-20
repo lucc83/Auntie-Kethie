@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auntie Kethie</title>
+    <title>K.T. Painting</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap');
 
         :root {
             --bg-color: #fcfbf9; /* Soft, warm off-white, like aged canvas */
@@ -25,6 +25,12 @@
 
         h1, h2, h3, .serif-text {
             font-family: 'Playfair Display', serif;
+        }
+
+        .cursive-brand {
+            font-family: 'Alex Brush', cursive;
+            font-size: 2.5rem;
+            line-height: 1;
         }
 
         /* Scroll Animation Classes */
@@ -180,8 +186,8 @@
     <!-- Navigation -->
     <nav class="fixed w-full z-40 top-0 transition-all duration-300" id="navbar">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="serif-text text-xl tracking-wider font-bold">AUNTIE KETHIE</a>
-            <div class="space-x-8 text-sm uppercase tracking-widest">
+            <a href="#" class="cursive-brand tracking-wider font-bold">K.T. Painting</a>
+            <div class="space-x-8 text-sm uppercase tracking-widest hidden md:block">
                 <a href="#gallery" class="hover:text-[#8ba88e] transition-colors">Gallery</a>
                 <a href="#about" class="hover:text-[#8ba88e] transition-colors">Artist</a>
                 <a href="#contact" class="hover:text-[#8ba88e] transition-colors">Contact</a>
@@ -195,9 +201,9 @@
         <div class="hero-blob blob-2"></div>
         
         <div class="hero-content fade-in-section max-w-2xl mx-4">
-            <p class="text-sm uppercase tracking-[0.3em] mb-4 text-[#8ba88e]">Landscapes in Light</p>
-            <h1 class="text-5xl md:text-7xl mb-6 leading-tight italic">Capturing the <br>Fleeting Moment</h1>
-            <p class="text-lg font-light max-w-md mx-auto mb-8">An exploration of nature through color, light, and impression.</p>
+            <p id="hero-subtitle" class="text-sm uppercase tracking-[0.3em] mb-4 text-[#8ba88e]"></p>
+            <h1 id="hero-title" class="text-5xl md:text-7xl mb-6 leading-tight italic"></h1>
+            <p id="hero-desc" class="text-lg font-light max-w-md mx-auto mb-8"></p>
             <a href="#gallery" class="inline-block border border-[#2c3e50] px-8 py-3 uppercase tracking-widest text-sm hover:bg-[#2c3e50] hover:text-[#fcfbf9] transition-colors duration-300">Enter Gallery</a>
         </div>
         
@@ -233,15 +239,15 @@
     <!-- Contact / Footer -->
     <footer id="contact" class="py-24 px-6 border-t border-gray-200 text-center">
         <div class="fade-in-section">
-            <h2 class="text-3xl mb-6 italic">Inquiries</h2>
-            <p class="mb-8 font-light max-w-md mx-auto">For commissions, studio visits, or pricing details, please reach out.</p>
-            <a href="mailto:artist@example.com" class="inline-block border-b border-[#2c3e50] pb-1 uppercase tracking-widest text-sm hover:text-[#8ba88e] hover:border-[#8ba88e] transition-colors">studio@auntiekethie.com</a>
+            <h2 id="contact-title" class="text-3xl mb-6 italic"></h2>
+            <p id="contact-desc" class="mb-8 font-light max-w-md mx-auto"></p>
+            <a id="contact-email" href="#" class="inline-block border-b border-[#2c3e50] pb-1 uppercase tracking-widest text-sm hover:text-[#8ba88e] hover:border-[#8ba88e] transition-colors"></a>
             
             <div class="mt-16 flex justify-center space-x-6 text-sm text-gray-400">
                 <a href="#" class="hover:text-gray-600 transition-colors">Instagram</a>
                 <a href="#" class="hover:text-gray-600 transition-colors">Artsy</a>
             </div>
-            <p class="mt-8 text-xs text-gray-400">&copy; <span id="year"></span> Auntie Kethie. All rights reserved.</p>
+            <p class="mt-8 text-xs text-gray-400">&copy; <span id="year"></span> K.T. Painting. All rights reserved.</p>
         </div>
     </footer>
 
@@ -254,15 +260,68 @@
         </div>
     </div>
 
-    <!-- Floating Upload Button -->
-    <button onclick="document.getElementById('fileInput').click()" class="fixed bottom-8 right-8 z-40 bg-[#8ba88e] text-white p-4 rounded-full shadow-lg hover:bg-[#6c876f] hover:scale-105 transition-all duration-300 group" title="Upload New Painting">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-        <span class="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-white text-[#2c3e50] px-3 py-1 rounded text-sm shadow opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Add Painting</span>
-    </button>
+    <!-- Floating Action Buttons -->
+    <div class="fixed bottom-8 right-8 z-40 flex flex-col space-y-4">
+        <button onclick="promptPassword(openSettingsModal)" class="bg-[#2c3e50] text-white p-4 rounded-full shadow-lg hover:bg-[#1a252f] hover:scale-105 transition-all duration-300 group" title="Edit Site Content">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        </button>
+        <button onclick="promptPassword(triggerFileInput)" class="bg-[#8ba88e] text-white p-4 rounded-full shadow-lg hover:bg-[#6c876f] hover:scale-105 transition-all duration-300 group" title="Upload New Painting">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+    </div>
     <input type="file" id="fileInput" accept="image/*" class="hidden" onchange="handleFileSelect(event)">
 
+    <!-- Password Modal -->
+    <div id="passwordModal" class="fixed inset-0 z-[70] bg-black/40 backdrop-blur-sm hidden items-center justify-center opacity-0 transition-opacity duration-300">
+        <div class="bg-[#fcfbf9] w-full max-w-sm p-8 rounded-lg shadow-2xl mx-4 transform scale-95 transition-transform duration-300" id="passwordModalContent">
+            <h3 class="text-2xl italic mb-4 text-center">Artist Access</h3>
+            <p class="text-sm text-center text-gray-500 mb-6">Please enter your password to continue.</p>
+            <input type="password" id="pwdInput" class="w-full border-b border-gray-300 bg-transparent px-2 py-2 mb-6 text-center focus:outline-none focus:border-[#8ba88e]" placeholder="Password">
+            <div class="flex justify-center space-x-4">
+                <button onclick="closePasswordModal()" class="px-4 py-2 text-sm text-gray-500 hover:text-gray-800 transition-colors">Cancel</button>
+                <button onclick="submitPassword()" class="px-6 py-2 bg-[#2c3e50] text-white text-sm uppercase tracking-widest hover:bg-[#8ba88e] transition-colors rounded">Verify</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm hidden items-center justify-center opacity-0 transition-opacity duration-300">
+        <div class="bg-[#fcfbf9] w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 rounded-lg shadow-2xl mx-4 transform scale-95 transition-transform duration-300" id="settingsModalContent">
+            <h3 class="text-2xl italic mb-6 text-center">Edit Site Content</h3>
+            
+            <div class="space-y-6">
+                <!-- Hero Settings -->
+                <div class="border-b border-gray-200 pb-4">
+                    <h4 class="text-lg font-bold mb-3 text-gray-700">Hero Section</h4>
+                    <input type="text" id="setHeroSub" class="w-full border border-gray-300 p-2 mb-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Subtitle">
+                    <input type="text" id="setHeroTitle" class="w-full border border-gray-300 p-2 mb-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Title (use <br> for new line)">
+                    <textarea id="setHeroDesc" class="w-full border border-gray-300 p-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Description" rows="2"></textarea>
+                </div>
+                <!-- About Settings -->
+                <div class="border-b border-gray-200 pb-4">
+                    <h4 class="text-lg font-bold mb-3 text-gray-700">Artist Section</h4>
+                    <input type="text" id="setAboutTitle" class="w-full border border-gray-300 p-2 mb-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Section Title">
+                    <textarea id="setAboutParas" class="w-full border border-gray-300 p-2 mb-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Paragraphs (separate by double newlines)" rows="4"></textarea>
+                    <input type="text" id="setAboutQuote" class="w-full border border-gray-300 p-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Quote (optional)">
+                </div>
+                <!-- Contact Settings -->
+                <div>
+                    <h4 class="text-lg font-bold mb-3 text-gray-700">Contact Section</h4>
+                    <input type="text" id="setContactTitle" class="w-full border border-gray-300 p-2 mb-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Contact Title">
+                    <textarea id="setContactDesc" class="w-full border border-gray-300 p-2 mb-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Contact Description" rows="2"></textarea>
+                    <input type="text" id="setContactEmail" class="w-full border border-gray-300 p-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Email Address">
+                </div>
+            </div>
+
+            <div class="mt-8 flex justify-end space-x-4">
+                <button onclick="closeSettingsModal()" class="px-4 py-2 text-sm text-gray-500 hover:text-gray-800 transition-colors">Cancel</button>
+                <button onclick="saveSettings()" class="px-6 py-2 bg-[#2c3e50] text-white text-sm uppercase tracking-widest hover:bg-[#8ba88e] transition-colors rounded">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Upload Details Modal -->
-    <div id="uploadModal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden items-center justify-center opacity-0 transition-opacity duration-300">
+    <div id="uploadModal" class="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm hidden items-center justify-center opacity-0 transition-opacity duration-300">
         <div class="bg-[#fcfbf9] w-full max-w-md p-8 rounded-lg shadow-2xl mx-4 transform scale-95 transition-transform duration-300" id="uploadModalContent">
             <h3 class="text-2xl italic mb-6 text-center">New Masterpiece</h3>
             <div class="space-y-4">
@@ -289,67 +348,47 @@
 
     <script>
         // =====================================================================
-        // 🎨 CONTENT CONFIGURATION - EDIT THIS SECTION
-        // =====================================================================
-        // This section is designed for you to easily update your website!
-        // When hosting on GitHub, just edit the text inside the quotes below.
-        // Be careful not to delete the quotation marks ("") or commas (,).
-        // 
-        // HOW TO ADD NEW ARTWORK:
-        // 1. Upload your image to your GitHub repo (e.g., in a folder called 'images').
-        // 2. Add a new block in the 'gallery' list below.
-        // 3. Update 'imageSrc' to point to your new file (e.g., "images/my-painting.jpg").
+        // 🎨 DYNAMIC STATE MANAGEMENT
         // =====================================================================
         
-        const SITE_CONFIG = {
+        const DEFAULT_SITE_DATA = {
+            hero: {
+                subtitle: "Landscapes in Light",
+                title: "Capturing the <br>Fleeting Moment",
+                desc: "An exploration of nature through color, light, and impression."
+            },
             about: {
                 title: "The Philosophy of Sight",
-                paragraphs: [
-                    "My work is not about painting the landscape exactly as it is, but rather painting the light that falls upon it. I seek to capture those transient moments—the sudden break of dawn over a misty field, the heavy, gilded light of late afternoon, or the cool, melancholic blues of twilight.",
-                    "Working primarily en plein air, I use rapid brushstrokes and broken color to translate the immediate visual sensation onto canvas. The details are less important than the overall atmosphere; it is the feeling of the place, the temperature of the air, that I wish to convey to the observer."
-                ],
+                paragraphs: "My work is not about painting the landscape exactly as it is, but rather painting the light that falls upon it. I seek to capture those transient moments—the sudden break of dawn over a misty field, the heavy, gilded light of late afternoon, or the cool, melancholic blues of twilight.\n\nWorking primarily en plein air, I use rapid brushstrokes and broken color to translate the immediate visual sensation onto canvas. The details are less important than the overall atmosphere; it is the feeling of the place, the temperature of the air, that I wish to convey to the observer.",
                 quote: "\"We do not see nature with our eyes, but with our understandings and our hearts.\""
             },
-            gallery: [
-                {
-                    imageSrc: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                    title: "Morning Mist",
-                    details: "Oil on Canvas, 24x36\""
-                },
-                {
-                    imageSrc: "https://images.unsplash.com/photo-1578309489505-1996d92ec179?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                    title: "Autumn Canopy",
-                    details: "Oil on Linen, 30x40\""
-                },
-                {
-                    imageSrc: "https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                    title: "Rain on the Seine",
-                    details: "Watercolor, 16x20\""
-                },
-                {
-                    imageSrc: "https://images.unsplash.com/photo-1533158307587-828f0a76cf46?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                    title: "Violet Twilight",
-                    details: "Oil on Board, 12x16\""
-                },
-                {
-                    imageSrc: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                    title: "The Poppy Field",
-                    details: "Oil on Canvas, 36x48\""
-                },
-                {
-                    imageSrc: "https://images.unsplash.com/photo-1549492423-400259a2e574?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                    title: "Coastal Study",
-                    details: "Pastel, 18x24\""
-                }
-            ]
+            contact: {
+                title: "Inquiries",
+                desc: "For commissions, studio visits, or pricing details, please reach out.",
+                email: "studio@ktpainting.com"
+            }
         };
 
         let pendingImageData = null;
+        let pendingAction = null;
         
-        // Load custom user artwork from local storage
+        // --- Data Fetching ---
+        function getSiteData() {
+            try {
+                const stored = localStorage.getItem('ktPaintingSiteData');
+                return stored ? JSON.parse(stored) : DEFAULT_SITE_DATA;
+            } catch (e) {
+                return DEFAULT_SITE_DATA;
+            }
+        }
+
+        function saveSiteData(data) {
+            localStorage.setItem('ktPaintingSiteData', JSON.stringify(data));
+        }
+
         function getCustomGallery() {
             try {
-                const stored = localStorage.getItem('auntieKethieGallery');
+                const stored = localStorage.getItem('ktPaintingGallery');
                 return stored ? JSON.parse(stored) : [];
             } catch (e) {
                 console.error("Could not read from local storage", e);
@@ -357,45 +396,202 @@
             }
         }
 
+        // --- Authentication Flow ---
+        function promptPassword(actionCallback) {
+            pendingAction = actionCallback;
+            const modal = document.getElementById('passwordModal');
+            const content = document.getElementById('passwordModalContent');
+            
+            document.getElementById('pwdInput').value = '';
+            
+            modal.classList.remove('hidden');
+            modal.style.display = 'flex';
+            void modal.offsetWidth; 
+            
+            modal.classList.add('opacity-100');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+            
+            document.getElementById('pwdInput').focus();
+        }
+
+        function closePasswordModal() {
+            const modal = document.getElementById('passwordModal');
+            const content = document.getElementById('passwordModalContent');
+            
+            modal.classList.remove('opacity-100');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.style.display = '';
+                pendingAction = null;
+            }, 300);
+        }
+
+        function submitPassword() {
+            const pwd = document.getElementById('pwdInput').value;
+            if (pwd === 'kethie') {
+                closePasswordModal();
+                if(pendingAction) pendingAction();
+            } else {
+                showToast("Incorrect password.");
+            }
+        }
+
+        // Handle Enter key for password
+        document.getElementById('pwdInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') submitPassword();
+        });
+
+        // --- Settings Management ---
+        function openSettingsModal() {
+            const data = getSiteData();
+            
+            document.getElementById('setHeroSub').value = data.hero.subtitle;
+            document.getElementById('setHeroTitle').value = data.hero.title;
+            document.getElementById('setHeroDesc').value = data.hero.desc;
+            
+            document.getElementById('setAboutTitle').value = data.about.title;
+            document.getElementById('setAboutParas').value = data.about.paragraphs;
+            document.getElementById('setAboutQuote').value = data.about.quote;
+            
+            document.getElementById('setContactTitle').value = data.contact.title;
+            document.getElementById('setContactDesc').value = data.contact.desc;
+            document.getElementById('setContactEmail').value = data.contact.email;
+
+            const modal = document.getElementById('settingsModal');
+            const content = document.getElementById('settingsModalContent');
+            
+            modal.classList.remove('hidden');
+            modal.style.display = 'flex';
+            void modal.offsetWidth; 
+            
+            modal.classList.add('opacity-100');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+        }
+
+        function closeSettingsModal() {
+            const modal = document.getElementById('settingsModal');
+            const content = document.getElementById('settingsModalContent');
+            
+            modal.classList.remove('opacity-100');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.style.display = '';
+            }, 300);
+        }
+
+        function saveSettings() {
+            const newData = {
+                hero: {
+                    subtitle: document.getElementById('setHeroSub').value,
+                    title: document.getElementById('setHeroTitle').value,
+                    desc: document.getElementById('setHeroDesc').value
+                },
+                about: {
+                    title: document.getElementById('setAboutTitle').value,
+                    paragraphs: document.getElementById('setAboutParas').value,
+                    quote: document.getElementById('setAboutQuote').value
+                },
+                contact: {
+                    title: document.getElementById('setContactTitle').value,
+                    desc: document.getElementById('setContactDesc').value,
+                    email: document.getElementById('setContactEmail').value
+                }
+            };
+            
+            saveSiteData(newData);
+            closeSettingsModal();
+            renderContent();
+            showToast("Settings saved successfully!");
+        }
+
+        // --- Core Rendering ---
         function renderContent() {
-            // Render the About Section
+            const siteData = getSiteData();
+
+            // Hero
+            document.getElementById('hero-subtitle').textContent = siteData.hero.subtitle;
+            document.getElementById('hero-title').innerHTML = siteData.hero.title;
+            document.getElementById('hero-desc').textContent = siteData.hero.desc;
+
+            // About
             const aboutContainer = document.getElementById('about-container');
-            let aboutHtml = `<h2 class="text-4xl mb-8 italic">${SITE_CONFIG.about.title}</h2><div class="brush-stroke-divider"></div><div class="prose prose-lg mx-auto text-center font-light leading-relaxed space-y-6 mt-12 text-gray-700">`;
-            SITE_CONFIG.about.paragraphs.forEach(p => aboutHtml += `<p>${p}</p>`);
-            if (SITE_CONFIG.about.quote) aboutHtml += `<p class="serif-text text-2xl italic mt-12 text-[#8ba88e]">${SITE_CONFIG.about.quote}</p>`;
+            let aboutHtml = `<h2 class="text-4xl mb-8 italic">${siteData.about.title}</h2><div class="brush-stroke-divider"></div><div class="prose prose-lg mx-auto text-center font-light leading-relaxed space-y-6 mt-12 text-gray-700">`;
+            const paras = siteData.about.paragraphs.split('\n');
+            paras.forEach(p => {
+                if (p.trim()) aboutHtml += `<p>${p}</p>`;
+            });
+            if (siteData.about.quote) aboutHtml += `<p class="serif-text text-2xl italic mt-12 text-[#8ba88e]">${siteData.about.quote}</p>`;
             aboutHtml += `</div>`;
             aboutContainer.innerHTML = aboutHtml;
 
-            // Combine default gallery with custom uploaded gallery
-            const customGallery = getCustomGallery();
-            const fullGallery = [...customGallery, ...SITE_CONFIG.gallery];
+            // Contact
+            document.getElementById('contact-title').textContent = siteData.contact.title;
+            document.getElementById('contact-desc').textContent = siteData.contact.desc;
+            const emailEl = document.getElementById('contact-email');
+            emailEl.textContent = siteData.contact.email;
+            emailEl.href = `mailto:${siteData.contact.email}`;
 
-            // Render the Gallery Grid
+            // Gallery
+            const gallery = getCustomGallery();
             const galleryGrid = document.getElementById('gallery-grid');
             let galleryHtml = '';
             
-            fullGallery.forEach(item => {
-                // Ensure quotes in titles don't break the HTML
-                const escapedImg = item.imageSrc.replace(/'/g, "\\'");
-                const escapedTitle = item.title.replace(/'/g, "\\'");
-                
-                galleryHtml += `
-                <div class="gallery-image-container fade-in-section break-inside-avoid cursor-pointer" onclick="openModal('${escapedImg}', '${escapedTitle}')">
-                    <img src="${item.imageSrc}" alt="${item.title}" loading="lazy">
-                    <div class="image-overlay">
-                        <h3 class="text-xl mb-1 italic">${item.title}</h3>
-                        <p class="text-xs uppercase tracking-widest text-gray-500">${item.details}</p>
-                    </div>
-                </div>`;
-            });
+            if (gallery.length === 0) {
+                galleryHtml = `<div class="col-span-full text-center py-20 text-gray-400 italic text-lg">The gallery is currently empty. Click the plus button to add your first painting.</div>`;
+            } else {
+                gallery.forEach((item, index) => {
+                    const escapedImg = item.imageSrc.replace(/'/g, "\\'");
+                    const escapedTitle = item.title.replace(/'/g, "\\'");
+                    
+                    galleryHtml += `
+                    <div class="gallery-image-container fade-in-section break-inside-avoid relative group">
+                        <!-- Delete Button (requires password) -->
+                        <div class="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button onclick="event.stopPropagation(); promptPassword(() => deleteImage(${index}))" class="bg-white/90 text-red-500 p-2 rounded-full shadow-md hover:bg-red-50 hover:text-red-600 transition-colors" title="Remove Painting">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></svg>
+                            </button>
+                        </div>
+                        
+                        <img src="${item.imageSrc}" alt="${item.title}" loading="lazy" class="cursor-pointer w-full" onclick="openModal('${escapedImg}', '${escapedTitle}')">
+                        <div class="image-overlay pointer-events-none">
+                            <h3 class="text-xl mb-1 italic">${item.title}</h3>
+                            <p class="text-xs uppercase tracking-widest text-gray-500">${item.details}</p>
+                        </div>
+                    </div>`;
+                });
+            }
             galleryGrid.innerHTML = galleryHtml;
             
-            // Re-apply intersection observer to new gallery items
             setTimeout(() => {
                 document.querySelectorAll('.fade-in-section:not(.is-visible)').forEach((section) => {
                     observer.observe(section);
                 });
             }, 100);
+        }
+
+        function triggerFileInput() {
+            document.getElementById('fileInput').click();
+        }
+
+        function deleteImage(index) {
+            try {
+                const gallery = getCustomGallery();
+                gallery.splice(index, 1);
+                localStorage.setItem('ktPaintingGallery', JSON.stringify(gallery));
+                renderContent();
+                showToast("Painting removed successfully.");
+            } catch (e) {
+                console.error(e);
+                showToast("Error removing painting.");
+            }
         }
 
         // Initialize content immediately
@@ -422,15 +618,13 @@
         const observerOptions = {
             root: null,
             rootMargin: '0px',
-            threshold: 0.15 // Trigger when 15% of the element is visible
+            threshold: 0.15
         };
 
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    // Optional: stop observing once faded in to keep it visible
-                    // observer.unobserve(entry.target); 
                 }
             });
         }, observerOptions);
@@ -449,34 +643,30 @@
             modalImg.src = imgSrc;
             modalCaption.textContent = caption;
             modal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling while modal is open
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeModal() {
             modal.classList.remove('active');
-            setTimeout(() => { modalImg.src = ''; }, 300); // Clear source after fade out
-            document.body.style.overflow = ''; // Restore scrolling
+            setTimeout(() => { modalImg.src = ''; }, 300);
+            document.body.style.overflow = ''; 
         }
 
-        // Close modal on click outside image
+        // Close modals dynamically
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
+            if (e.target === modal) closeModal();
         });
 
-        // Close modal on escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
-                closeModal();
-            }
-            if (e.key === 'Escape' && !document.getElementById('uploadModal').classList.contains('hidden')) {
-                closeUploadModal();
+            if (e.key === 'Escape') {
+                if (modal.classList.contains('active')) closeModal();
+                if (!document.getElementById('uploadModal').classList.contains('hidden')) closeUploadModal();
+                if (!document.getElementById('passwordModal').classList.contains('hidden')) closePasswordModal();
+                if (!document.getElementById('settingsModal').classList.contains('hidden')) closeSettingsModal();
             }
         });
 
         // --- Upload Feature Logic ---
-
         function showToast(message) {
             const toast = document.getElementById('toast');
             document.getElementById('toastMessage').textContent = message;
@@ -493,7 +683,6 @@
             const file = event.target.files[0];
             if (!file) return;
 
-            // Optional: check file type
             if (!file.type.startsWith('image/')) {
                 showToast("Please select an image file.");
                 return;
@@ -501,11 +690,10 @@
 
             const reader = new FileReader();
             reader.onload = function(e) {
-                // Resize image using Canvas to prevent crashing localStorage
                 const img = new Image();
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 1000; // Good balance for quality vs storage size
+                    const MAX_WIDTH = 1000;
                     let width = img.width;
                     let height = img.height;
 
@@ -519,14 +707,12 @@
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
 
-                    // Compress to JPEG for smaller storage footprint
                     pendingImageData = canvas.toDataURL('image/jpeg', 0.85); 
                     openUploadModal();
                 }
                 img.src = e.target.result;
             }
             reader.readAsDataURL(file);
-            // Reset input so the same file can be selected again if needed
             event.target.value = '';
         }
 
@@ -540,7 +726,6 @@
             uploadModal.classList.remove('hidden');
             uploadModal.style.display = 'flex';
             
-            // Trigger reflow for animation
             void uploadModal.offsetWidth; 
             
             uploadModal.classList.add('opacity-100');
@@ -583,19 +768,16 @@
 
             try {
                 const customGallery = getCustomGallery();
-                // Add new artwork to the BEGINNING of the gallery array
                 customGallery.unshift(newArtwork); 
-                localStorage.setItem('auntieKethieGallery', JSON.stringify(customGallery));
+                localStorage.setItem('ktPaintingGallery', JSON.stringify(customGallery));
                 
                 closeUploadModal();
-                renderContent(); // Re-render the page with new art
+                renderContent(); 
                 showToast("Masterpiece added successfully!");
                 
-                // Scroll to gallery to see the new addition
                 document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
                 
             } catch (e) {
-                // This usually happens if localStorage quota is exceeded
                 console.error(e);
                 showToast("Storage full! Please clear browser data to add more.");
                 closeUploadModal();
