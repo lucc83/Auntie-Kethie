@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auntie Kethie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap');
+
+        :root {
+            --bg-color: #fcfbf9; /* Soft, warm off-white, like aged canvas */
+            --text-main: #2c3e50; /* Deep blue-grey, avoiding harsh black */
+            --accent: #8ba88e; /* Soft sage green */
+            --accent-light: #d1d8ce;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Lato', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .serif-text {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Scroll Animation Classes */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            visibility: hidden;
+            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+            will-change: opacity, visibility;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+            visibility: visible;
+        }
+
+        /* Impressionist details */
+        .brush-stroke-divider {
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--accent), transparent);
+            opacity: 0.5;
+            margin: 2rem auto;
+            width: 50%;
+            border-radius: 50%;
+        }
+
+        .gallery-image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-image-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .gallery-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 1.5s ease;
+        }
+
+        .gallery-image-container:hover img {
+            transform: scale(1.03); /* Subtle zoom on hover */
+        }
+        
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(252, 251, 249, 0.95), transparent);
+            padding: 2rem 1rem 1rem;
+            transform: translateY(100%);
+            transition: transform 0.4s ease-in-out;
+        }
+        
+        .gallery-image-container:hover .image-overlay {
+            transform: translateY(0);
+        }
+
+        /* Hero Section Styling */
+        #hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--accent-light);
+            /* A soft, blurred background to mimic an impressionist sky */
+            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4) 0%, transparent 80%),
+                              linear-gradient(135deg, #e0e8e4 0%, #c5d3c8 100%);
+            overflow: hidden;
+        }
+
+        /* Soft blurred shapes in hero */
+        .hero-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.6;
+            z-index: 0;
+        }
+        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #a8c0af; animation: float 20s infinite ease-in-out; }
+        .blob-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: #d9e2d5; animation: float 25s infinite ease-in-out reverse; }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(252, 251, 249, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 2px;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        
+        /* Modal for full size images */
+        #imageModal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(252, 251, 249, 0.95);
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #imageModal.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        #modalImg {
+            max-width: 90%;
+            max-height: 85vh;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            border: 10px solid white;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: color 0.2s;
+        }
+        .close-modal:hover { color: var(--accent); }
+
+    </style>
+</head>
+<body class="antialiased selection:bg-[#8ba88e] selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-40 top-0 transition-all duration-300" id="navbar">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="serif-text text-xl tracking-wider font-bold">AUNTIE KETHIE</a>
+            <div class="space-x-8 text-sm uppercase tracking-widest">
+                <a href="#gallery" class="hover:text-[#8ba88e] transition-colors">Gallery</a>
+                <a href="#about" class="hover:text-[#8ba88e] transition-colors">Artist</a>
+                <a href="#contact" class="hover:text-[#8ba88e] transition-colors">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="hero">
+        <div class="hero-blob blob-1"></div>
+        <div class="hero-blob blob-2"></div>
+        
+        <div class="hero-content fade-in-section max-w-2xl mx-4">
+            <p class="text-sm uppercase tracking-[0.3em] mb-4 text-[#8ba88e]">Landscapes in Light</p>
+            <h1 class="text-5xl md:text-7xl mb-6 leading-tight italic">Capturing the <br>Fleeting Moment</h1>
+            <p class="text-lg font-light max-w-md mx-auto mb-8">An exploration of nature through color, light, and impression.</p>
+            <a href="#gallery" class="inline-block border border-[#2c3e50] px-8 py-3 uppercase tracking-widest text-sm hover:bg-[#2c3e50] hover:text-[#fcfbf9] transition-colors duration-300">Enter Gallery</a>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce opacity-50">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+        </div>
+    </header>
+
+    <!-- Artist Writeup Section -->
+    <section id="about" class="py-32 px-6 max-w-4xl mx-auto">
+        <!-- We've added an ID here so JavaScript can inject your content -->
+        <div id="about-container" class="fade-in-section text-center">
+            <!-- Content is now dynamically loaded from SITE_CONFIG in the script below -->
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-24 px-6 bg-[#f7f5f0]">
+        <div class="max-w-7xl mx-auto">
+            <div class="fade-in-section text-center mb-16">
+                <h2 class="text-4xl italic">Selected Works</h2>
+                <div class="brush-stroke-divider"></div>
+            </div>
+
+            <!-- Masonry-style Grid (CSS Columns) -->
+            <!-- We've added an ID here so JavaScript can inject your images -->
+            <div id="gallery-grid" class="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
+                <!-- Gallery images are now dynamically loaded from SITE_CONFIG in the script below -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact / Footer -->
+    <footer id="contact" class="py-24 px-6 border-t border-gray-200 text-center">
+        <div class="fade-in-section">
+            <h2 class="text-3xl mb-6 italic">Inquiries</h2>
+            <p class="mb-8 font-light max-w-md mx-auto">For commissions, studio visits, or pricing details, please reach out.</p>
+            <a href="mailto:artist@example.com" class="inline-block border-b border-[#2c3e50] pb-1 uppercase tracking-widest text-sm hover:text-[#8ba88e] hover:border-[#8ba88e] transition-colors">studio@auntiekethie.com</a>
+            
+            <div class="mt-16 flex justify-center space-x-6 text-sm text-gray-400">
+                <a href="#" class="hover:text-gray-600 transition-colors">Instagram</a>
+                <a href="#" class="hover:text-gray-600 transition-colors">Artsy</a>
+            </div>
+            <p class="mt-8 text-xs text-gray-400">&copy; <span id="year"></span> Auntie Kethie. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Fullscreen Image Modal -->
+    <div id="imageModal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <div class="text-center">
+            <img id="modalImg" src="" alt="Full size painting">
+            <p id="modalCaption" class="mt-4 serif-text text-xl italic text-gray-800"></p>
+        </div>
+    </div>
+
+    <script>
+        // =====================================================================
+        // 🎨 CONTENT CONFIGURATION - EDIT THIS SECTION
+        // =====================================================================
+        // This section is designed for you to easily update your website!
+        // When hosting on GitHub, just edit the text inside the quotes below.
+        // Be careful not to delete the quotation marks ("") or commas (,).
+        // 
+        // HOW TO ADD NEW ARTWORK:
+        // 1. Upload your image to your GitHub repo (e.g., in a folder called 'images').
+        // 2. Add a new block in the 'gallery' list below.
+        // 3. Update 'imageSrc' to point to your new file (e.g., "images/my-painting.jpg").
+        // =====================================================================
+        
+        const SITE_CONFIG = {
+            about: {
+                title: "The Philosophy of Sight",
+                paragraphs: [
+                    "My work is not about painting the landscape exactly as it is, but rather painting the light that falls upon it. I seek to capture those transient moments—the sudden break of dawn over a misty field, the heavy, gilded light of late afternoon, or the cool, melancholic blues of twilight.",
+                    "Working primarily en plein air, I use rapid brushstrokes and broken color to translate the immediate visual sensation onto canvas. The details are less important than the overall atmosphere; it is the feeling of the place, the temperature of the air, that I wish to convey to the observer."
+                ],
+                quote: "\"We do not see nature with our eyes, but with our understandings and our hearts.\""
+            },
+            gallery: [
+                {
+                    imageSrc: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    title: "Morning Mist",
+                    details: "Oil on Canvas, 24x36\""
+                },
+                {
+                    imageSrc: "https://images.unsplash.com/photo-1578309489505-1996d92ec179?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    title: "Autumn Canopy",
+                    details: "Oil on Linen, 30x40\""
+                },
+                {
+                    imageSrc: "https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    title: "Rain on the Seine",
+                    details: "Watercolor, 16x20\""
+                },
+                {
+                    imageSrc: "https://images.unsplash.com/photo-1533158307587-828f0a76cf46?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    title: "Violet Twilight",
+                    details: "Oil on Board, 12x16\""
+                },
+                {
+                    imageSrc: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    title: "The Poppy Field",
+                    details: "Oil on Canvas, 36x48\""
+                },
+                {
+                    imageSrc: "https://images.unsplash.com/photo-1549492423-400259a2e574?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    title: "Coastal Study",
+                    details: "Pastel, 18x24\""
+                }
+            ]
+        };
+
+        function renderContent() {
+            // Render the About Section
+            const aboutContainer = document.getElementById('about-container');
+            let aboutHtml = `<h2 class="text-4xl mb-8 italic">${SITE_CONFIG.about.title}</h2><div class="brush-stroke-divider"></div><div class="prose prose-lg mx-auto text-center font-light leading-relaxed space-y-6 mt-12 text-gray-700">`;
+            SITE_CONFIG.about.paragraphs.forEach(p => aboutHtml += `<p>${p}</p>`);
+            if (SITE_CONFIG.about.quote) aboutHtml += `<p class="serif-text text-2xl italic mt-12 text-[#8ba88e]">${SITE_CONFIG.about.quote}</p>`;
+            aboutHtml += `</div>`;
+            aboutContainer.innerHTML = aboutHtml;
+
+            // Render the Gallery Grid
+            const galleryGrid = document.getElementById('gallery-grid');
+            let galleryHtml = '';
+            SITE_CONFIG.gallery.forEach(item => {
+                // Ensure quotes in titles don't break the HTML
+                const escapedImg = item.imageSrc.replace(/'/g, "\\'");
+                const escapedTitle = item.title.replace(/'/g, "\\'");
+                
+                galleryHtml += `
+                <div class="gallery-image-container fade-in-section break-inside-avoid cursor-pointer" onclick="openModal('${escapedImg}', '${escapedTitle}')">
+                    <img src="${item.imageSrc}" alt="${item.title}">
+                    <div class="image-overlay">
+                        <h3 class="text-xl mb-1 italic">${item.title}</h3>
+                        <p class="text-xs uppercase tracking-widest text-gray-500">${item.details}</p>
+                    </div>
+                </div>`;
+            });
+            galleryGrid.innerHTML = galleryHtml;
+        }
+
+        // Initialize content immediately
+        renderContent();
+
+        // Set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-[#fcfbf9]/90', 'backdrop-blur-md', 'shadow-sm');
+                navbar.classList.remove('py-4');
+                navbar.classList.add('py-2');
+            } else {
+                navbar.classList.remove('bg-[#fcfbf9]/90', 'backdrop-blur-md', 'shadow-sm');
+                navbar.classList.remove('py-2');
+                navbar.classList.add('py-4');
+            }
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15 // Trigger when 15% of the element is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Optional: stop observing once faded in to keep it visible
+                    // observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+
+        // Select all elements with the fade-in class
+        document.querySelectorAll('.fade-in-section').forEach((section) => {
+            observer.observe(section);
+        });
+
+        // Modal Logic
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalCaption = document.getElementById('modalCaption');
+
+        function openModal(imgSrc, caption) {
+            modalImg.src = imgSrc;
+            modalCaption.textContent = caption;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling while modal is open
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            setTimeout(() => { modalImg.src = ''; }, 300); // Clear source after fade out
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        // Close modal on click outside image
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
