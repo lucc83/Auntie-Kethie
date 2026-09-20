@@ -154,6 +154,8 @@
             transition: opacity 0.3s ease;
             align-items: center;
             justify-content: center;
+            overflow-y: auto;
+            padding: 2rem 1rem;
         }
         
         #imageModal.active {
@@ -162,20 +164,22 @@
         }
         
         #modalImg {
-            max-width: 90%;
-            max-height: 85vh;
+            max-width: 100%;
+            max-height: 70vh;
             box-shadow: 0 20px 50px rgba(0,0,0,0.15);
             border: 10px solid white;
+            object-fit: contain;
         }
         
         .close-modal {
             position: absolute;
-            top: 2rem;
+            top: 1rem;
             right: 2rem;
-            font-size: 2rem;
+            font-size: 2.5rem;
             cursor: pointer;
             color: var(--text-main);
             transition: color 0.2s;
+            z-index: 60;
         }
         .close-modal:hover { color: var(--accent); }
 
@@ -214,10 +218,8 @@
 
     <!-- Artist Writeup Section -->
     <section id="about" class="py-32 px-6 max-w-4xl mx-auto">
-        <!-- We've added an ID here so JavaScript can inject your content -->
-        <div id="about-container" class="fade-in-section text-center">
-            <!-- Content is now dynamically loaded from SITE_CONFIG in the script below -->
-        </div>
+        <!-- Content is dynamically loaded from SITE_CONFIG below -->
+        <div id="about-container" class="fade-in-section text-center"></div>
     </section>
 
     <!-- Gallery Section -->
@@ -229,10 +231,8 @@
             </div>
 
             <!-- Masonry-style Grid (CSS Columns) -->
-            <!-- We've added an ID here so JavaScript can inject your images -->
-            <div id="gallery-grid" class="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
-                <!-- Gallery images are now dynamically loaded from SITE_CONFIG in the script below -->
-            </div>
+            <!-- Gallery images are dynamically loaded from ARTWORK_PORTFOLIO below -->
+            <div id="gallery-grid" class="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8"></div>
         </div>
     </section>
 
@@ -251,107 +251,26 @@
         </div>
     </footer>
 
-    <!-- Fullscreen Image Modal -->
+    <!-- Fullscreen Image Modal with Details -->
     <div id="imageModal">
-        <span class="close-modal" onclick="closeModal()">&times;</span>
-        <div class="text-center">
+        <span class="close-modal" onclick="closeModal()" title="Close">&times;</span>
+        <div class="w-full max-w-5xl mx-auto flex flex-col items-center justify-center min-h-full py-12">
             <img id="modalImg" src="" alt="Full size painting">
-            <p id="modalCaption" class="mt-4 serif-text text-xl italic text-gray-800"></p>
-        </div>
-    </div>
-
-    <!-- Floating Action Buttons -->
-    <div class="fixed bottom-8 right-8 z-40 flex flex-col space-y-4">
-        <button onclick="promptPassword(openSettingsModal)" class="bg-[#2c3e50] text-white p-4 rounded-full shadow-lg hover:bg-[#1a252f] hover:scale-105 transition-all duration-300 group" title="Edit Site Content">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-        </button>
-        <button onclick="promptPassword(triggerFileInput)" class="bg-[#8ba88e] text-white p-4 rounded-full shadow-lg hover:bg-[#6c876f] hover:scale-105 transition-all duration-300 group" title="Upload New Painting">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-        </button>
-    </div>
-    <input type="file" id="fileInput" accept="image/*" class="hidden" onchange="handleFileSelect(event)">
-
-    <!-- Password Modal -->
-    <div id="passwordModal" class="fixed inset-0 z-[70] bg-black/40 backdrop-blur-sm hidden items-center justify-center opacity-0 transition-opacity duration-300">
-        <div class="bg-[#fcfbf9] w-full max-w-sm p-8 rounded-lg shadow-2xl mx-4 transform scale-95 transition-transform duration-300" id="passwordModalContent">
-            <h3 class="text-2xl italic mb-4 text-center">Artist Access</h3>
-            <p class="text-sm text-center text-gray-500 mb-6">Please enter your password to continue.</p>
-            <input type="password" id="pwdInput" class="w-full border-b border-gray-300 bg-transparent px-2 py-2 mb-6 text-center focus:outline-none focus:border-[#8ba88e]" placeholder="Password">
-            <div class="flex justify-center space-x-4">
-                <button onclick="closePasswordModal()" class="px-4 py-2 text-sm text-gray-500 hover:text-gray-800 transition-colors">Cancel</button>
-                <button onclick="submitPassword()" class="px-6 py-2 bg-[#2c3e50] text-white text-sm uppercase tracking-widest hover:bg-[#8ba88e] transition-colors rounded">Verify</button>
+            <div class="mt-8 w-full max-w-2xl bg-white/60 p-8 rounded-sm shadow-sm backdrop-blur-md text-center">
+                <h3 id="modalTitle" class="serif-text text-3xl italic text-[#2c3e50] mb-2"></h3>
+                <p id="modalSpecs" class="text-xs uppercase tracking-widest text-[#8ba88e] font-bold mb-4"></p>
+                <div class="brush-stroke-divider w-1/4 my-4 mx-auto"></div>
+                <p id="modalDesc" class="font-light text-gray-700 leading-relaxed text-sm"></p>
             </div>
         </div>
-    </div>
-
-    <!-- Settings Modal -->
-    <div id="settingsModal" class="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm hidden items-center justify-center opacity-0 transition-opacity duration-300">
-        <div class="bg-[#fcfbf9] w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 rounded-lg shadow-2xl mx-4 transform scale-95 transition-transform duration-300" id="settingsModalContent">
-            <h3 class="text-2xl italic mb-6 text-center">Edit Site Content</h3>
-            
-            <div class="space-y-6">
-                <!-- Hero Settings -->
-                <div class="border-b border-gray-200 pb-4">
-                    <h4 class="text-lg font-bold mb-3 text-gray-700">Hero Section</h4>
-                    <input type="text" id="setHeroSub" class="w-full border border-gray-300 p-2 mb-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Subtitle">
-                    <input type="text" id="setHeroTitle" class="w-full border border-gray-300 p-2 mb-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Title (use <br> for new line)">
-                    <textarea id="setHeroDesc" class="w-full border border-gray-300 p-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Description" rows="2"></textarea>
-                </div>
-                <!-- About Settings -->
-                <div class="border-b border-gray-200 pb-4">
-                    <h4 class="text-lg font-bold mb-3 text-gray-700">Artist Section</h4>
-                    <input type="text" id="setAboutTitle" class="w-full border border-gray-300 p-2 mb-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Section Title">
-                    <textarea id="setAboutParas" class="w-full border border-gray-300 p-2 mb-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Paragraphs (separate by double newlines)" rows="4"></textarea>
-                    <input type="text" id="setAboutQuote" class="w-full border border-gray-300 p-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Quote (optional)">
-                </div>
-                <!-- Contact Settings -->
-                <div>
-                    <h4 class="text-lg font-bold mb-3 text-gray-700">Contact Section</h4>
-                    <input type="text" id="setContactTitle" class="w-full border border-gray-300 p-2 mb-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Contact Title">
-                    <textarea id="setContactDesc" class="w-full border border-gray-300 p-2 mb-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Contact Description" rows="2"></textarea>
-                    <input type="text" id="setContactEmail" class="w-full border border-gray-300 p-2 bg-transparent rounded focus:outline-none focus:border-[#8ba88e]" placeholder="Email Address">
-                </div>
-            </div>
-
-            <div class="mt-8 flex justify-end space-x-4">
-                <button onclick="closeSettingsModal()" class="px-4 py-2 text-sm text-gray-500 hover:text-gray-800 transition-colors">Cancel</button>
-                <button onclick="saveSettings()" class="px-6 py-2 bg-[#2c3e50] text-white text-sm uppercase tracking-widest hover:bg-[#8ba88e] transition-colors rounded">Save Changes</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Upload Details Modal -->
-    <div id="uploadModal" class="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm hidden items-center justify-center opacity-0 transition-opacity duration-300">
-        <div class="bg-[#fcfbf9] w-full max-w-md p-8 rounded-lg shadow-2xl mx-4 transform scale-95 transition-transform duration-300" id="uploadModalContent">
-            <h3 class="text-2xl italic mb-6 text-center">New Masterpiece</h3>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm uppercase tracking-widest text-gray-500 mb-1">Artwork Title</label>
-                    <input type="text" id="uploadTitle" class="w-full border-b border-gray-300 bg-transparent px-2 py-2 focus:outline-none focus:border-[#8ba88e] transition-colors" placeholder="e.g. Sunrise over the Valley">
-                </div>
-                <div>
-                    <label class="block text-sm uppercase tracking-widest text-gray-500 mb-1">Details</label>
-                    <input type="text" id="uploadDetails" class="w-full border-b border-gray-300 bg-transparent px-2 py-2 focus:outline-none focus:border-[#8ba88e] transition-colors" placeholder="e.g. Oil on Canvas, 16x20&quot;">
-                </div>
-            </div>
-            <div class="mt-8 flex justify-end space-x-4">
-                <button onclick="closeUploadModal()" class="px-4 py-2 text-sm text-gray-500 hover:text-gray-800 transition-colors">Cancel</button>
-                <button onclick="saveArtwork()" class="px-6 py-2 bg-[#2c3e50] text-white text-sm uppercase tracking-widest hover:bg-[#8ba88e] transition-colors rounded">Add to Gallery</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notification (replaces alert) -->
-    <div id="toast" class="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-white text-[#2c3e50] px-6 py-3 shadow-lg rounded-full opacity-0 pointer-events-none transition-all duration-300 transform -translate-y-4">
-        <span id="toastMessage"></span>
     </div>
 
     <script>
         // =====================================================================
-        // 🎨 DYNAMIC STATE MANAGEMENT
+        // 📝 SITE CONFIGURATION 📝
+        // Edit your website text here. This section updates the Hero, About, and Contact areas.
         // =====================================================================
-        
-        const DEFAULT_SITE_DATA = {
+        const SITE_CONFIG = {
             hero: {
                 subtitle: "Landscapes in Light",
                 title: "Capturing the <br>Fleeting Moment",
@@ -369,207 +288,91 @@
             }
         };
 
-        let pendingImageData = null;
-        let pendingAction = null;
+        // =====================================================================
+        // 🎨 ARTWORK DATA SECTION 🎨
+        // Add your paintings to this list. 
+        // IMPORTANT: Change the imagePath to point to the actual files in your 'images' folder.
+        // Example: imagePath: "images/painting-01.jpg"
+        // =====================================================================
+        const ARTWORK_PORTFOLIO = [
+            {
+                imagePath: "https://placehold.co/800x1000/e0e8e4/2c3e50?text=Sunrise+over+the+Valley", // <-- CHANGE THIS TO YOUR LOCAL FILE, e.g. "images/sunrise.jpg"
+                title: "Sunrise over the Valley",
+                year: "2024",
+                medium: "Oil on Canvas",
+                dimensions: "16x20\"",
+                description: "Captured during the early hours of dawn, focusing on the interplay of cool morning mist and warm sunlight across the dew-covered grass."
+            },
+            {
+                imagePath: "https://placehold.co/1000x800/d1d8ce/2c3e50?text=The+Gilded+Afternoon", // <-- CHANGE THIS TO YOUR LOCAL FILE
+                title: "The Gilded Afternoon",
+                year: "2023",
+                medium: "Oil on Board",
+                dimensions: "12x16\"",
+                description: "An exploration of heavy, late-afternoon light reflecting off a quiet, slow-moving stream in the height of summer."
+            },
+            {
+                imagePath: "https://placehold.co/900x1200/c5d3c8/2c3e50?text=Melancholy+Twilight", // <-- CHANGE THIS TO YOUR LOCAL FILE
+                title: "Melancholy Twilight",
+                year: "2023",
+                medium: "Watercolor on Paper",
+                dimensions: "18x24\"",
+                description: "The fleeting transition between day and night, characterized by cool, melancholic blues and violent strokes of shadow."
+            }
+        ];
         
-        // --- Data Fetching ---
-        function getSiteData() {
-            try {
-                const stored = localStorage.getItem('ktPaintingSiteData');
-                return stored ? JSON.parse(stored) : DEFAULT_SITE_DATA;
-            } catch (e) {
-                return DEFAULT_SITE_DATA;
-            }
-        }
-
-        function saveSiteData(data) {
-            localStorage.setItem('ktPaintingSiteData', JSON.stringify(data));
-        }
-
-        function getCustomGallery() {
-            try {
-                const stored = localStorage.getItem('ktPaintingGallery');
-                return stored ? JSON.parse(stored) : [];
-            } catch (e) {
-                console.error("Could not read from local storage", e);
-                return [];
-            }
-        }
-
-        // --- Authentication Flow ---
-        function promptPassword(actionCallback) {
-            pendingAction = actionCallback;
-            const modal = document.getElementById('passwordModal');
-            const content = document.getElementById('passwordModalContent');
-            
-            document.getElementById('pwdInput').value = '';
-            
-            modal.classList.remove('hidden');
-            modal.style.display = 'flex';
-            void modal.offsetWidth; 
-            
-            modal.classList.add('opacity-100');
-            content.classList.remove('scale-95');
-            content.classList.add('scale-100');
-            
-            document.getElementById('pwdInput').focus();
-        }
-
-        function closePasswordModal() {
-            const modal = document.getElementById('passwordModal');
-            const content = document.getElementById('passwordModalContent');
-            
-            modal.classList.remove('opacity-100');
-            content.classList.remove('scale-100');
-            content.classList.add('scale-95');
-            
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.style.display = '';
-                pendingAction = null;
-            }, 300);
-        }
-
-        function submitPassword() {
-            const pwd = document.getElementById('pwdInput').value;
-            if (pwd === 'kethie') {
-                closePasswordModal();
-                if(pendingAction) pendingAction();
-            } else {
-                showToast("Incorrect password.");
-            }
-        }
-
-        // Handle Enter key for password
-        document.getElementById('pwdInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') submitPassword();
-        });
-
-        // --- Settings Management ---
-        function openSettingsModal() {
-            const data = getSiteData();
-            
-            document.getElementById('setHeroSub').value = data.hero.subtitle;
-            document.getElementById('setHeroTitle').value = data.hero.title;
-            document.getElementById('setHeroDesc').value = data.hero.desc;
-            
-            document.getElementById('setAboutTitle').value = data.about.title;
-            document.getElementById('setAboutParas').value = data.about.paragraphs;
-            document.getElementById('setAboutQuote').value = data.about.quote;
-            
-            document.getElementById('setContactTitle').value = data.contact.title;
-            document.getElementById('setContactDesc').value = data.contact.desc;
-            document.getElementById('setContactEmail').value = data.contact.email;
-
-            const modal = document.getElementById('settingsModal');
-            const content = document.getElementById('settingsModalContent');
-            
-            modal.classList.remove('hidden');
-            modal.style.display = 'flex';
-            void modal.offsetWidth; 
-            
-            modal.classList.add('opacity-100');
-            content.classList.remove('scale-95');
-            content.classList.add('scale-100');
-        }
-
-        function closeSettingsModal() {
-            const modal = document.getElementById('settingsModal');
-            const content = document.getElementById('settingsModalContent');
-            
-            modal.classList.remove('opacity-100');
-            content.classList.remove('scale-100');
-            content.classList.add('scale-95');
-            
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.style.display = '';
-            }, 300);
-        }
-
-        function saveSettings() {
-            const newData = {
-                hero: {
-                    subtitle: document.getElementById('setHeroSub').value,
-                    title: document.getElementById('setHeroTitle').value,
-                    desc: document.getElementById('setHeroDesc').value
-                },
-                about: {
-                    title: document.getElementById('setAboutTitle').value,
-                    paragraphs: document.getElementById('setAboutParas').value,
-                    quote: document.getElementById('setAboutQuote').value
-                },
-                contact: {
-                    title: document.getElementById('setContactTitle').value,
-                    desc: document.getElementById('setContactDesc').value,
-                    email: document.getElementById('setContactEmail').value
-                }
-            };
-            
-            saveSiteData(newData);
-            closeSettingsModal();
-            renderContent();
-            showToast("Settings saved successfully!");
-        }
-
-        // --- Core Rendering ---
+        // --- Core Rendering Function ---
         function renderContent() {
-            const siteData = getSiteData();
+            // Render Hero Section
+            document.getElementById('hero-subtitle').textContent = SITE_CONFIG.hero.subtitle;
+            document.getElementById('hero-title').innerHTML = SITE_CONFIG.hero.title;
+            document.getElementById('hero-desc').textContent = SITE_CONFIG.hero.desc;
 
-            // Hero
-            document.getElementById('hero-subtitle').textContent = siteData.hero.subtitle;
-            document.getElementById('hero-title').innerHTML = siteData.hero.title;
-            document.getElementById('hero-desc').textContent = siteData.hero.desc;
-
-            // About
+            // Render About Section
             const aboutContainer = document.getElementById('about-container');
-            let aboutHtml = `<h2 class="text-4xl mb-8 italic">${siteData.about.title}</h2><div class="brush-stroke-divider"></div><div class="prose prose-lg mx-auto text-center font-light leading-relaxed space-y-6 mt-12 text-gray-700">`;
-            const paras = siteData.about.paragraphs.split('\n');
+            let aboutHtml = `<h2 class="text-4xl mb-8 italic">${SITE_CONFIG.about.title}</h2>
+                             <div class="brush-stroke-divider"></div>
+                             <div class="prose prose-lg mx-auto text-center font-light leading-relaxed space-y-6 mt-12 text-gray-700">`;
+            
+            const paras = SITE_CONFIG.about.paragraphs.split('\n');
             paras.forEach(p => {
                 if (p.trim()) aboutHtml += `<p>${p}</p>`;
             });
-            if (siteData.about.quote) aboutHtml += `<p class="serif-text text-2xl italic mt-12 text-[#8ba88e]">${siteData.about.quote}</p>`;
+            if (SITE_CONFIG.about.quote) {
+                aboutHtml += `<p class="serif-text text-2xl italic mt-12 text-[#8ba88e]">${SITE_CONFIG.about.quote}</p>`;
+            }
             aboutHtml += `</div>`;
             aboutContainer.innerHTML = aboutHtml;
 
-            // Contact
-            document.getElementById('contact-title').textContent = siteData.contact.title;
-            document.getElementById('contact-desc').textContent = siteData.contact.desc;
+            // Render Contact Section
+            document.getElementById('contact-title').textContent = SITE_CONFIG.contact.title;
+            document.getElementById('contact-desc').textContent = SITE_CONFIG.contact.desc;
             const emailEl = document.getElementById('contact-email');
-            emailEl.textContent = siteData.contact.email;
-            emailEl.href = `mailto:${siteData.contact.email}`;
+            emailEl.textContent = SITE_CONFIG.contact.email;
+            emailEl.href = `mailto:${SITE_CONFIG.contact.email}`;
 
-            // Gallery
-            const gallery = getCustomGallery();
+            // Render Gallery Section
             const galleryGrid = document.getElementById('gallery-grid');
             let galleryHtml = '';
             
-            if (gallery.length === 0) {
-                galleryHtml = `<div class="col-span-full text-center py-20 text-gray-400 italic text-lg">The gallery is currently empty. Click the plus button to add your first painting.</div>`;
+            if (ARTWORK_PORTFOLIO.length === 0) {
+                galleryHtml = `<div class="col-span-full text-center py-20 text-gray-400 italic text-lg">The gallery is currently empty. Please add artwork data to the code.</div>`;
             } else {
-                gallery.forEach((item, index) => {
-                    const escapedImg = item.imageSrc.replace(/'/g, "\\'");
-                    const escapedTitle = item.title.replace(/'/g, "\\'");
-                    
+                ARTWORK_PORTFOLIO.forEach((item, index) => {
+                    // Pass the index to the openModal function to retrieve full details later
                     galleryHtml += `
                     <div class="gallery-image-container fade-in-section break-inside-avoid relative group">
-                        <!-- Delete Button (requires password) -->
-                        <div class="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button onclick="event.stopPropagation(); promptPassword(() => deleteImage(${index}))" class="bg-white/90 text-red-500 p-2 rounded-full shadow-md hover:bg-red-50 hover:text-red-600 transition-colors" title="Remove Painting">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></svg>
-                            </button>
-                        </div>
-                        
-                        <img src="${item.imageSrc}" alt="${item.title}" loading="lazy" class="cursor-pointer w-full" onclick="openModal('${escapedImg}', '${escapedTitle}')">
+                        <img src="${item.imagePath}" alt="${item.title}" loading="lazy" class="cursor-pointer w-full" onclick="openModal(${index})">
                         <div class="image-overlay pointer-events-none">
                             <h3 class="text-xl mb-1 italic">${item.title}</h3>
-                            <p class="text-xs uppercase tracking-widest text-gray-500">${item.details}</p>
+                            <p class="text-xs uppercase tracking-widest text-gray-500">${item.medium}, ${item.year}</p>
                         </div>
                     </div>`;
                 });
             }
             galleryGrid.innerHTML = galleryHtml;
             
+            // Re-trigger intersection observer for newly added gallery items
             setTimeout(() => {
                 document.querySelectorAll('.fade-in-section:not(.is-visible)').forEach((section) => {
                     observer.observe(section);
@@ -577,30 +380,13 @@
             }, 100);
         }
 
-        function triggerFileInput() {
-            document.getElementById('fileInput').click();
-        }
-
-        function deleteImage(index) {
-            try {
-                const gallery = getCustomGallery();
-                gallery.splice(index, 1);
-                localStorage.setItem('ktPaintingGallery', JSON.stringify(gallery));
-                renderContent();
-                showToast("Painting removed successfully.");
-            } catch (e) {
-                console.error(e);
-                showToast("Error removing painting.");
-            }
-        }
-
         // Initialize content immediately
         renderContent();
 
-        // Set current year
+        // Set current year in footer
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // Navbar scroll effect
+        // Navbar scroll effect (shrinks and blurs background on scroll)
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
@@ -614,7 +400,7 @@
             }
         });
 
-        // Intersection Observer for fade-in animations
+        // Intersection Observer for elegant fade-in animations on scroll
         const observerOptions = {
             root: null,
             rootMargin: '0px',
@@ -629,160 +415,56 @@
             });
         }, observerOptions);
 
-        // Select all elements with the fade-in class
+        // Select and observe all elements with the fade-in class initially
         document.querySelectorAll('.fade-in-section').forEach((section) => {
             observer.observe(section);
         });
 
-        // Modal Logic
+        // --- Detailed Image Modal Logic ---
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImg');
-        const modalCaption = document.getElementById('modalCaption');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalSpecs = document.getElementById('modalSpecs');
+        const modalDesc = document.getElementById('modalDesc');
 
-        function openModal(imgSrc, caption) {
-            modalImg.src = imgSrc;
-            modalCaption.textContent = caption;
+        function openModal(artworkIndex) {
+            const artwork = ARTWORK_PORTFOLIO[artworkIndex];
+            
+            // Populate Modal Data
+            modalImg.src = artwork.imagePath;
+            modalTitle.textContent = artwork.title;
+            modalSpecs.textContent = `${artwork.medium} | ${artwork.dimensions} | ${artwork.year}`;
+            modalDesc.textContent = artwork.description;
+            
+            // Show Modal
             modal.classList.add('active');
-            document.body.style.overflow = 'hidden'; 
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
         }
 
         function closeModal() {
             modal.classList.remove('active');
-            setTimeout(() => { modalImg.src = ''; }, 300);
-            document.body.style.overflow = ''; 
+            document.body.style.overflow = ''; // Restore background scrolling
+            
+            // Clear contents after transition finishes
+            setTimeout(() => { 
+                modalImg.src = ''; 
+                modalTitle.textContent = '';
+                modalSpecs.textContent = '';
+                modalDesc.textContent = '';
+            }, 300);
         }
 
-        // Close modals dynamically
+        // Close modal when clicking the blurred background area
         modal.addEventListener('click', (e) => {
             if (e.target === modal) closeModal();
         });
 
+        // Close modal when pressing the Escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (modal.classList.contains('active')) closeModal();
-                if (!document.getElementById('uploadModal').classList.contains('hidden')) closeUploadModal();
-                if (!document.getElementById('passwordModal').classList.contains('hidden')) closePasswordModal();
-                if (!document.getElementById('settingsModal').classList.contains('hidden')) closeSettingsModal();
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
             }
         });
-
-        // --- Upload Feature Logic ---
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMessage').textContent = message;
-            toast.classList.remove('opacity-0', '-translate-y-4');
-            toast.classList.add('opacity-100', 'translate-y-0');
-            
-            setTimeout(() => {
-                toast.classList.remove('opacity-100', 'translate-y-0');
-                toast.classList.add('opacity-0', '-translate-y-4');
-            }, 3000);
-        }
-
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            if (!file.type.startsWith('image/')) {
-                showToast("Please select an image file.");
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 1000;
-                    let width = img.width;
-                    let height = img.height;
-
-                    if (width > MAX_WIDTH) {
-                        height = Math.round((height * MAX_WIDTH) / width);
-                        width = MAX_WIDTH;
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    pendingImageData = canvas.toDataURL('image/jpeg', 0.85); 
-                    openUploadModal();
-                }
-                img.src = e.target.result;
-            }
-            reader.readAsDataURL(file);
-            event.target.value = '';
-        }
-
-        function openUploadModal() {
-            const uploadModal = document.getElementById('uploadModal');
-            const uploadContent = document.getElementById('uploadModalContent');
-            
-            document.getElementById('uploadTitle').value = '';
-            document.getElementById('uploadDetails').value = '';
-            
-            uploadModal.classList.remove('hidden');
-            uploadModal.style.display = 'flex';
-            
-            void uploadModal.offsetWidth; 
-            
-            uploadModal.classList.add('opacity-100');
-            uploadContent.classList.remove('scale-95');
-            uploadContent.classList.add('scale-100');
-            
-            document.getElementById('uploadTitle').focus();
-        }
-
-        function closeUploadModal() {
-            const uploadModal = document.getElementById('uploadModal');
-            const uploadContent = document.getElementById('uploadModalContent');
-            
-            uploadModal.classList.remove('opacity-100');
-            uploadContent.classList.remove('scale-100');
-            uploadContent.classList.add('scale-95');
-            
-            setTimeout(() => {
-                uploadModal.classList.add('hidden');
-                uploadModal.style.display = '';
-                pendingImageData = null;
-            }, 300);
-        }
-
-        function saveArtwork() {
-            const title = document.getElementById('uploadTitle').value.trim() || 'Untitled';
-            const details = document.getElementById('uploadDetails').value.trim() || 'Details unavailable';
-            
-            if (!pendingImageData) {
-                showToast("Image data lost. Please try again.");
-                closeUploadModal();
-                return;
-            }
-
-            const newArtwork = {
-                imageSrc: pendingImageData,
-                title: title,
-                details: details
-            };
-
-            try {
-                const customGallery = getCustomGallery();
-                customGallery.unshift(newArtwork); 
-                localStorage.setItem('ktPaintingGallery', JSON.stringify(customGallery));
-                
-                closeUploadModal();
-                renderContent(); 
-                showToast("Masterpiece added successfully!");
-                
-                document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
-                
-            } catch (e) {
-                console.error(e);
-                showToast("Storage full! Please clear browser data to add more.");
-                closeUploadModal();
-            }
-        }
     </script>
 </body>
 </html>
